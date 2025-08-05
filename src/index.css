@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 259 94% 51%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 259 94% 71%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 259 94% 51%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 259 94% 51%;
+
+    --radius: 0.75rem;
+
+    /* Custom portfolio colors */
+    --hero-gradient: linear-gradient(135deg, hsl(259 94% 51%), hsl(210 100% 56%));
+    --night-gradient: linear-gradient(180deg, hsl(240 35% 7%), hsl(259 94% 10%));
+    --starry-bg: radial-gradient(circle at 20% 80%, hsl(259 94% 51% / 0.3) 0%, transparent 50%),
+                 radial-gradient(circle at 80% 20%, hsl(210 100% 56% / 0.3) 0%, transparent 50%),
+                 radial-gradient(circle at 40% 40%, hsl(240 100% 70% / 0.2) 0%, transparent 50%);
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 40px -10px hsl(259 94% 51% / 0.3);
+    --shadow-glow: 0 0 40px hsl(259 94% 71% / 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 259 94% 51%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 259 94% 71%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 259 94% 51%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 259 94% 51%;
+
+    /* Dark mode gradients */
+    --hero-gradient: linear-gradient(135deg, hsl(259 94% 51%), hsl(210 100% 56%));
+    --night-gradient: linear-gradient(180deg, hsl(240 35% 7%), hsl(259 94% 10%));
+    --starry-bg: radial-gradient(circle at 20% 80%, hsl(259 94% 51% / 0.4) 0%, transparent 50%),
+                 radial-gradient(circle at 80% 20%, hsl(210 100% 56% / 0.4) 0%, transparent 50%),
+                 radial-gradient(circle at 40% 40%, hsl(240 100% 70% / 0.3) 0%, transparent 50%);
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .night {
+    --background: 240 35% 7%;
+    --foreground: 210 100% 90%;
+
+    --card: 240 35% 9%;
+    --card-foreground: 210 100% 90%;
+
+    --popover: 240 35% 9%;
+    --popover-foreground: 210 100% 90%;
+
+    --primary: 210 100% 56%;
+    --primary-foreground: 240 35% 7%;
+    --primary-glow: 210 100% 76%;
+
+    --secondary: 240 20% 15%;
+    --secondary-foreground: 210 100% 90%;
+
+    --muted: 240 20% 15%;
+    --muted-foreground: 240 15% 65%;
+
+    --accent: 210 100% 56%;
+    --accent-foreground: 240 35% 7%;
+
+    --border: 240 20% 18%;
+    --input: 240 20% 18%;
+    --ring: 210 100% 56%;
+
+    /* Night mode gradients with starry effect */
+    --hero-gradient: linear-gradient(135deg, hsl(240 35% 7%), hsl(210 100% 20%));
+    --night-gradient: linear-gradient(180deg, hsl(240 35% 7%), hsl(259 94% 15%));
+    --starry-bg: radial-gradient(circle at 20% 80%, hsl(210 100% 56% / 0.5) 0%, transparent 40%),
+                 radial-gradient(circle at 80% 20%, hsl(259 94% 51% / 0.4) 0%, transparent 40%),
+                 radial-gradient(circle at 40% 40%, hsl(240 100% 70% / 0.3) 0%, transparent 30%),
+                 radial-gradient(circle at 60% 70%, hsl(210 100% 80% / 0.2) 0%, transparent 20%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
