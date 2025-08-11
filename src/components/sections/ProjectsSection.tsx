@@ -5,59 +5,39 @@ import { Badge } from '@/components/ui/badge';
 import { ExternalLink, Github, FileText } from 'lucide-react';
 
 const projects = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce solution with real-time inventory management, payment processing, and admin dashboard.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",
-    technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "AWS"],
-    liveUrl: "#",
-    githubUrl: "#",
-    category: "Web Development"
-  },
-  {
-    id: 2,
-    title: "Task Management App",
-    description: "Collaborative project management tool with real-time updates, team collaboration features, and analytics.",
-    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71",
-    technologies: ["Vue.js", "Express.js", "MongoDB", "Socket.io"],
-    liveUrl: "#",
-    githubUrl: "#",
-    category: "Web Development"
-  },
-  {
-    id: 3,
-    title: "AI Content Generator",
-    description: "Machine learning powered content generation tool for marketing teams with custom model training.",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
-    technologies: ["Python", "TensorFlow", "FastAPI", "React"],
-    liveUrl: "#",
-    githubUrl: "#",
-    category: "AI/ML"
-  }
+  // {
+  //   id: 1,
+  //   title: "E-Commerce Platform",
+  //   description: "A full-stack e-commerce solution with real-time inventory management, payment processing, and admin dashboard.",
+  //   image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",
+  //   technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "AWS"],
+  //   liveUrl: "#",
+  //   githubUrl: "#",
+  //   category: "Web Development"
+  // }
 ];
 
 const publications = [
   {
-    title: "Optimizing React Performance in Large-Scale Applications",
-    journal: "Journal of Web Technologies",
-    year: "2023",
-    description: "Research on performance optimization techniques for React applications handling massive datasets.",
-    url: "#"
+    title: "Track Learning Agent Using Multi-objective Reinforcement Learning",
+    journal: "Congress on Intelligent Systems",
+    year: "2024",
+    description: "Proposed a Pareto Q-learning based Multi-Objective Reinforcement Learning (MORL) framework for track navigation, enabling agents to simultaneously optimize conflicting goals such as minimizing steps, maximizing rewards, and avoiding collisions.",
+    url: "https://link.springer.com/chapter/10.1007/978-981-99-9037-5_3"
   },
   {
-    title: "Microservices Architecture Patterns for Modern Web Development",
-    journal: "Software Engineering Quarterly",
+    title: "Easier Web Navigation Using Intent Classification, Web Scarping and NLP Approaches",
+    journal: "5th International Conference on Advances in Science and Technology (ICAST)",
     year: "2022",
-    description: "Comprehensive analysis of microservices design patterns and their implementation strategies.",
-    url: "#"
+    description: "Developed a dynamic Natural Language User Interface (NLUI) combining data scraping, intent classification (99.1% accuracy), and NLP to enable intuitive text/voice-based web navigation with enhanced context understanding.",
+    url: "https://ieeexplore.ieee.org/document/10039559"
   },
   {
-    title: "Machine Learning in Frontend Development",
-    journal: "AI Developer Magazine",
+    title: "Travel Buddy",
+    journal: "",
     year: "2022",
-    description: "Exploring the integration of ML models directly into browser environments for enhanced UX.",
-    url: "#"
+    description: "Full-stack travel planning platform in React, built with a consistent design language and clean code practices, featuring itinerary creation, checklists, and expense tracking through interactive visualizations.",
+    url: "your-travel-buddy.netlify.app"
   }
 ];
 
@@ -83,7 +63,7 @@ export const ProjectsSection = () => {
         </motion.div>
 
         {/* Projects */}
-        <div className="mb-20">
+        {projects.length ? <div className="mb-20">
           <motion.h3
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -156,11 +136,11 @@ export const ProjectsSection = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </div> : null}
 
         {/* Publications */}
         <div>
-          <motion.h3
+          {/* <motion.h3
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -168,7 +148,7 @@ export const ProjectsSection = () => {
           >
             <FileText className="h-6 w-6" />
             Research Publications
-          </motion.h3>
+          </motion.h3> */}
           
           <div className="space-y-6">
             {publications.map((pub, index) => (

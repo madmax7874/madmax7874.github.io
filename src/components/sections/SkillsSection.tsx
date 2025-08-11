@@ -5,70 +5,92 @@ import { Badge } from '@/components/ui/badge';
 import { Code, Palette, Database, Cloud, Smartphone, Globe } from 'lucide-react';
 
 const skillCategories = [
-  {
-    title: "Frontend Development",
-    icon: Code,
-    skills: [
-      { name: "React", level: 95 },
-      { name: "TypeScript", level: 90 },
-      { name: "Vue.js", level: 85 },
-      { name: "Next.js", level: 88 },
-      { name: "Tailwind CSS", level: 92 }
-    ]
-  },
-  {
-    title: "Backend Development",
-    icon: Database,
-    skills: [
-      { name: "Node.js", level: 90 },
-      { name: "Python", level: 85 },
-      { name: "PostgreSQL", level: 88 },
-      { name: "MongoDB", level: 82 },
-      { name: "GraphQL", level: 80 }
-    ]
-  },
-  {
-    title: "Cloud & DevOps",
-    icon: Cloud,
-    skills: [
-      { name: "AWS", level: 85 },
-      { name: "Docker", level: 88 },
-      { name: "Kubernetes", level: 75 },
-      { name: "CI/CD", level: 82 },
-      { name: "Terraform", level: 70 }
-    ]
-  },
-  {
-    title: "Design & UI/UX",
-    icon: Palette,
-    skills: [
-      { name: "Figma", level: 85 },
-      { name: "Adobe Creative Suite", level: 80 },
-      { name: "User Research", level: 75 },
-      { name: "Prototyping", level: 82 },
-      { name: "Design Systems", level: 88 }
-    ]
-  }
+  // {
+  //   title: "Frontend Development",
+  //   icon: Code,
+  //   skills: [
+  //     { name: "React", level: 95 },
+  //     { name: "TypeScript", level: 90 },
+  //     { name: "Vue.js", level: 85 },
+  //     { name: "Next.js", level: 88 },
+  //     { name: "Tailwind CSS", level: 92 }
+  //   ]
+  // },
+  // {
+  //   title: "Backend Development",
+  //   icon: Database,
+  //   skills: [
+  //     { name: "Node.js", level: 90 },
+  //     { name: "Python", level: 85 },
+  //     { name: "PostgreSQL", level: 88 },
+  //     { name: "MongoDB", level: 82 },
+  //     { name: "GraphQL", level: 80 }
+  //   ]
+  // },
+  // {
+  //   title: "Cloud & DevOps",
+  //   icon: Cloud,
+  //   skills: [
+  //     { name: "AWS", level: 85 },
+  //     { name: "Docker", level: 88 },
+  //     { name: "Kubernetes", level: 75 },
+  //     { name: "CI/CD", level: 82 },
+  //     { name: "Terraform", level: 70 }
+  //   ]
+  // },
+  // {
+  //   title: "Design & UI/UX",
+  //   icon: Palette,
+  //   skills: [
+  //     { name: "Figma", level: 85 },
+  //     { name: "Adobe Creative Suite", level: 80 },
+  //     { name: "User Research", level: 75 },
+  //     { name: "Prototyping", level: 82 },
+  //     { name: "Design Systems", level: 88 }
+  //   ]
+  // }
 ];
 
-const technologies = [
-  "JavaScript", "TypeScript", "React", "Vue.js", "Node.js", "Python", 
-  "AWS", "Docker", "PostgreSQL", "MongoDB", "GraphQL", "REST APIs",
-  "Git", "Linux", "Figma", "Adobe XD", "Tailwind CSS", "SASS"
+const technologyCategories = [
+  {
+    title: "Languages",
+    items: [
+      "Python", "JavaScript", "C/C++", "SQL", "TypeScript", "Java", "HTML", "CSS", "R"
+    ],
+  },
+  {
+    title: "Frameworks",
+    items: [
+      "NextJS", "React", "Node.js", "Express.JS", "DJango", "Flask", "Fast-API", "SpringBoot", "Scikit learn", "PyTorch", "LangChain"
+    ],
+  },
+  {
+    title: "Databases",
+    items: [
+      "MySQL", "Microsoft SQL server", "PostgreSQL", "MongoDB", "InfluxDB"
+    ],
+  },
+  {
+    title: "Developer Tools",
+    items: [
+      "AWS", "Docker", "Git", "Grafana", "Graylog", "Jenkins", "Kafka", "Kubernetes", "Kuma", "Minio", "Redis", "Sentry", "SVN"
+    ],
+  },
 ];
+
 
 const languages = [
-  { name: "English", level: "Native" },
-  { name: "Spanish", level: "Fluent" },
-  { name: "French", level: "Intermediate" },
-  { name: "German", level: "Basic" }
+  // { name: "English", level: "Native" },
+  // { name: "Spanish", level: "Fluent" },
+  // { name: "French", level: "Intermediate" },
+  // { name: "German", level: "Basic" }
 ];
 
 export const SkillsSection = () => {
   return (
     <section id="skills" className="py-20 relative overflow-hidden">
       <div className="absolute inset-0 bg-starry-bg opacity-20"></div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -86,7 +108,7 @@ export const SkillsSection = () => {
         </motion.div>
 
         {/* Technical Skills */}
-        <div className="mb-16">
+        {skillCategories.length ? <div className="mb-16">
           <motion.h3
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -96,7 +118,7 @@ export const SkillsSection = () => {
             <Code className="h-6 w-6" />
             Technical Proficiency
           </motion.h3>
-          
+
           <div className="grid lg:grid-cols-2 gap-8">
             {skillCategories.map((category, categoryIndex) => (
               <motion.div
@@ -115,7 +137,7 @@ export const SkillsSection = () => {
                       {category.title}
                     </h4>
                   </div>
-                  
+
                   <div className="space-y-4">
                     {category.skills.map((skill, skillIndex) => (
                       <motion.div
@@ -134,8 +156,8 @@ export const SkillsSection = () => {
                             {skill.level}%
                           </span>
                         </div>
-                        <Progress 
-                          value={skill.level} 
+                        <Progress
+                          value={skill.level}
                           className="h-2 bg-muted"
                         />
                       </motion.div>
@@ -145,7 +167,7 @@ export const SkillsSection = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </div> : null}
 
         {/* Technologies */}
         <div className="mb-16">
@@ -158,36 +180,43 @@ export const SkillsSection = () => {
             <Globe className="h-6 w-6" />
             Technologies & Tools
           </motion.h3>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-wrap gap-3"
-          >
-            {technologies.map((tech, index) => (
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {technologyCategories.map((category, catIdx) => (
               <motion.div
-                key={tech}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                key={category.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                whileHover={{ scale: 1.05, y: -2 }}
+                transition={{ duration: 0.8, delay: catIdx * 0.2 }}
               >
-                <Badge 
-                  variant="secondary"
-                  className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer px-4 py-2 text-sm"
-                >
-                  {tech}
-                </Badge>
+                <h4 className="font-semibold text-lg mb-4 text-primary">{category.title}</h4>
+                <div className="flex flex-wrap gap-3">
+                  {category.items.map((tech, idx) => (
+                    <motion.div
+                      key={tech}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: idx * 0.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                    >
+                      <Badge
+                        variant="secondary"
+                        className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer px-4 py-2 text-sm"
+                      >
+                        {tech}
+                      </Badge>
+                    </motion.div>
+                  ))}
+                </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Languages */}
-        <div>
+        {languages.length ? <div>
           <motion.h3
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -197,7 +226,7 @@ export const SkillsSection = () => {
             <Smartphone className="h-6 w-6" />
             Languages
           </motion.h3>
-          
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {languages.map((lang, index) => (
               <motion.div
@@ -219,7 +248,7 @@ export const SkillsSection = () => {
               </motion.div>
             ))}
           </div>
-        </div>
+        </div> : null}
       </div>
     </section>
   );
