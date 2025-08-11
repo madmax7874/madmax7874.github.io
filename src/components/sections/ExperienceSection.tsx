@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useLayoutEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import carImage from '@/assets/car.png';
+import F1CarIcon from '@/assets/F1CarIcon.tsx';
 
 const experiences = [
   {
@@ -137,12 +137,13 @@ export const ExperienceSection = () => {
         <motion.div
           className="absolute z-20 hidden md:block top-0"
           style={{
-            left: 'calc(50% - 2rem)', // center horizontally, adjust for car width
+            left: 'calc(50% - 1rem)', // center horizontally, adjust for car width
             y: carY,
             top: "10%"
           }}
         >
-          <motion.div
+          <F1CarIcon className="w-8 h-16" />
+          {/* <motion.div
             className="relative"
             animate={{
               y: [0, -5, 0],
@@ -159,7 +160,7 @@ export const ExperienceSection = () => {
               className="w-16 h-8 object-contain filter drop-shadow-lg"
             />
             <div className="absolute -inset-2 bg-primary/20 rounded-full blur-md -z-10 animate-glow"></div>
-          </motion.div>
+          </motion.div> */}
         </motion.div>
 
         {/* Experience Cards */}
