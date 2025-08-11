@@ -1,5 +1,5 @@
-import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
-import { useRef, useLayoutEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useLayoutEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import carImage from '@/assets/car.png';
@@ -9,9 +9,10 @@ const experiences = [
     id: 1,
     company: "Institutional Shareholder Services",
     position: "Software Developer",
-    duration: "Jan 2025 - Jul 2025",
-    description: "Leading development of scalable web applications using React, Node.js, and AWS. Mentoring junior developers and architecting cloud solutions.",
-    technologies: ["React", "Node.js", "AWS", "PostgreSQL", "Docker"],
+    duration: "Feb 2025 - Jul 2025",
+    description:
+      "Designed automated alerting systems and centralized alert managers across Node.js, Java, and Python, integrating with Slack, Teams, and email for root-level traceability. Built high-accuracy data extraction systems, scalable financial web crawlers, and a PDF-to-HTML converter with 98% parsing accuracy, reducing manual intervention and boosting operational efficiency.",
+    technologies: ["Python", "Java", "Node.js", "MySQL", "Grafana", "Kuma", "Slack API", "PDFBox", "Regex", "Machine Learning"],
     side: "left"
   },
   {
@@ -19,17 +20,19 @@ const experiences = [
     company: "Institutional Shareholder Services",
     position: "Junior Software Developer",
     duration: "Jul 2023 - Jan 2025",
-    description: "Built responsive web applications from scratch. Collaborated closely with design team to implement pixel-perfect UIs.",
-    technologies: ["Vue.js", "Express.js", "MongoDB", "Redis"],
+    description:
+      "Engineered real-time ETL pipelines from Kafka, Kubernetes, MongoDB, and Redis into InfluxDB, creating actionable Grafana visualizations for analytics and resource planning. Built custom dashboards and a React-based monitoring tool adopted company-wide, halving debugging times for 8+ applications.",
+    technologies: ["Java", "React", "Kafka", "Kubernetes", "MongoDB", "Redis", "InfluxDB", "Grafana"],
     side: "right"
   },
   {
     id: 3,
     company: "Vedika.ai",
-    position: "Lead Software Developer Intern",
+    position: "Software Developer Intern",
     duration: "Mar 2023 - Jul 2023",
-    description: "Developed interactive websites for various clients. Focused on performance optimization and cross-browser compatibility.",
-    technologies: ["React", "TypeScript", "SASS", "Webpack"],
+    description:
+      "Led end-to-end MVP development, translating 100+ Figma frames into a Next.js frontend, architecting Python-based backends, and designing complete MongoDB schemas. Implemented AI-powered features including LLM prompt engineering, OCR-based OMR scoring, and vector database content structuring and retrieval to enhance LLM performance.",
+    technologies: ["Next.js", "AWS", "Python", "LangChain", "MongoDB", "Vector DB", "OCR", "PayPal API", "YouTube API", "TikTok API", "Figma"],
     side: "left"
   },
   {
@@ -37,8 +40,9 @@ const experiences = [
     company: "Buyceps",
     position: "Software Developer Intern",
     duration: "Dec 2022 - Mar 2023",
-    description: "Created custom websites for small businesses. Handled everything from design to deployment and client training.",
-    technologies: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
+    description:
+      "Contributed to e-commerce platform enhancements by developing modular features, optimizing backend APIs, and improving overall site performance for smoother customer experiences.",
+    technologies: ["React", "Node.js", "Express.js", "MongoDB", "Redux", "JavaScript"],
     side: "right"
   },
   {
@@ -46,47 +50,53 @@ const experiences = [
     company: "Studypaq",
     position: "Software Developer Intern",
     duration: "Jun 2022 - Dec 2022",
-    description: "Developed interactive websites for various clients. Focused on performance optimization and cross-browser compatibility.",
-    technologies: ["React", "TypeScript", "SASS", "Webpack"],
+    description:
+      "Implemented new platform features for a collaborative learning environment, optimized performance, and ensured seamless, responsive UI across devices.",
+    technologies: ["React", "Node.js", "Express.js", "MongoDB", "AWS S3", "JavaScript"],
     side: "left"
   },
   {
     id: 6,
     company: "Dreams International",
-    position: "Full-Satck Developer Intern",
+    position: "Full-Stack Developer Intern",
     duration: "Jul 2021 - Oct 2021",
-    description: "Created custom websites for small businesses. Handled everything from design to deployment and client training.",
-    technologies: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
+    description:
+      "Developed responsive, SEO-optimized business websites with admin dashboards, built REST APIs, and designed efficient MySQL schemas to power content workflows.",
+    technologies: ["React", "Node.js", "Express.js", "MongoDB", "MySQL", "Netlify", "Heroku"],
     side: "right"
   }
 ];
 
 export const ExperienceSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const carRef = useRef<HTMLDivElement>(null);
   const roadRef = useRef<HTMLDivElement>(null);
-  const carY = useMotionValue(0);
+  const [carY, setCarY] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
 
-  const progressPercentage = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
-  
+  const progressPercentage = useTransform(scrollYProgress, (latest) => {
+    const section = containerRef.current;
+    if (!section) return 0;
+    const offsetRatio = 125 / window.innerHeight;
+    if (latest < offsetRatio) return 0;
+    const scaled = (latest - offsetRatio) / (1 - offsetRatio);
+    return Math.min(scaled / (1 - offsetRatio), 1);
+  });
+
   useLayoutEffect(() => {
     const road = roadRef.current;
     if (!road) return;
     const roadRect = road.getBoundingClientRect();
-    const roadHeight = roadRect.height;
-    
-    const unsubscribe = scrollYProgress.on("change", (latest) => {
-      const carOffset = roadHeight * progressPercentage.get();
-      carY.set(carOffset);
+
+    const unsubscribe = progressPercentage.on("change", (progress) => {
+      setCarY(roadRect.height * progress);
     });
 
     return () => unsubscribe();
-  }, [scrollYProgress, carY]);
+  }, [progressPercentage]);
 
   return (
     <section id="experience" className="py-20 relative overflow-hidden" ref={containerRef}>
@@ -118,14 +128,13 @@ export const ExperienceSection = () => {
             className="w-full bg-primary"
             style={{
               height: progressPercentage,
-              transition: "height 0.3s ease-out"
+              // transition: "height 0.3s ease-out"
             }}
           />
         </div>
 
         {/* Animated Car */}
         <motion.div
-          ref={carRef}
           className="absolute z-20 hidden md:block top-0"
           style={{
             left: 'calc(50% - 2rem)', // center horizontally, adjust for car width
