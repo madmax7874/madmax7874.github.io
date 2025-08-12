@@ -10,8 +10,10 @@ const experiences = [
     company: "Institutional Shareholder Services",
     position: "Software Developer",
     duration: "Feb 2025 - Jul 2025",
-    description:
-      "Designed automated alerting systems and centralized alert managers across Node.js, Java, and Python, integrating with Slack, Teams, and email for root-level traceability. Built high-accuracy data extraction systems, scalable financial web crawlers, and a PDF-to-HTML converter with 98% parsing accuracy, reducing manual intervention and boosting operational efficiency.",
+    description: [
+      "Designed automated alerting systems and centralized alert managers across Node.js, Java, and Python, integrating with Slack, Teams, and email for root-level traceability.",
+      "Built high-accuracy data extraction systems, scalable financial web crawlers, and a PDF-to-HTML converter with 98% parsing accuracy, reducing manual intervention and boosting operational efficiency."
+    ],
     technologies: ["Python", "Java", "Node.js", "MySQL", "Grafana", "Kuma", "Slack API", "PDFBox", "Regex", "Machine Learning"],
     side: "left"
   },
@@ -20,8 +22,10 @@ const experiences = [
     company: "Institutional Shareholder Services",
     position: "Junior Software Developer",
     duration: "Jul 2023 - Jan 2025",
-    description:
-      "Engineered real-time ETL pipelines from Kafka, Kubernetes, MongoDB, and Redis into InfluxDB, creating actionable Grafana visualizations for analytics and resource planning. Built custom dashboards and a React-based monitoring tool adopted company-wide, halving debugging times for 8+ applications.",
+    description: [
+      "Engineered real-time ETL pipelines from Kafka, Kubernetes, MongoDB, and Redis into InfluxDB, creating actionable Grafana visualizations for analytics and resource planning.",
+      "Built custom dashboards and a React-based monitoring tool adopted company-wide, halving debugging times for 8+ applications."
+    ],
     technologies: ["Java", "React", "Kafka", "Kubernetes", "MongoDB", "Redis", "InfluxDB", "Grafana"],
     side: "right"
   },
@@ -30,8 +34,10 @@ const experiences = [
     company: "Vedika.ai",
     position: "Software Developer Intern",
     duration: "Mar 2023 - Jul 2023",
-    description:
-      "Led end-to-end MVP development, translating 100+ Figma frames into a Next.js frontend, architecting Python-based backends, and designing complete MongoDB schemas. Implemented AI-powered features including LLM prompt engineering, OCR-based OMR scoring, and vector database content structuring and retrieval to enhance LLM performance.",
+    description: [
+      "Led end-to-end MVP development, translating 100+ Figma frames into a Next.js frontend, architecting Python-based backends, and designing complete MongoDB schemas.",
+      "Implemented AI-powered features including LLM prompt engineering, OCR-based OMR scoring, and vector database content structuring and retrieval to enhance LLM performance."
+    ],
     technologies: ["Next.js", "AWS", "Python", "LangChain", "MongoDB", "Vector DB", "OCR", "PayPal API", "YouTube API", "TikTok API", "Figma"],
     side: "left"
   },
@@ -40,8 +46,10 @@ const experiences = [
     company: "Buyceps",
     position: "Software Developer Intern",
     duration: "Dec 2022 - Mar 2023",
-    description:
-      "Contributed to e-commerce platform enhancements by developing modular features, optimizing backend APIs, and improving overall site performance for smoother customer experiences.",
+    description: [
+      "Contributed to e-commerce platform enhancements by developing modular features.",
+      "Optimized backend APIs and improved overall site performance for smoother customer experiences."
+    ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "Redux", "JavaScript"],
     side: "right"
   },
@@ -50,8 +58,10 @@ const experiences = [
     company: "Studypaq",
     position: "Software Developer Intern",
     duration: "Jun 2022 - Dec 2022",
-    description:
-      "Implemented new platform features for a collaborative learning environment, optimized performance, and ensured seamless, responsive UI across devices.",
+    description: [
+      "Implemented new platform features for a collaborative learning environment.",
+      "Optimized performance and ensured seamless, responsive UI across devices."
+    ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "AWS S3", "JavaScript"],
     side: "left"
   },
@@ -60,8 +70,10 @@ const experiences = [
     company: "Dreams International",
     position: "Full-Stack Developer Intern",
     duration: "Jul 2021 - Oct 2021",
-    description:
-      "Developed responsive, SEO-optimized business websites with admin dashboards, built REST APIs, and designed efficient MySQL schemas to power content workflows.",
+    description: [
+      "Developed responsive, SEO-optimized business websites with admin dashboards.",
+      "Built REST APIs and designed efficient MySQL schemas to power content workflows."
+    ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "MySQL", "Netlify", "Heroku"],
     side: "right"
   }
@@ -106,7 +118,7 @@ export const ExperienceSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <h2 className="text-4xl font-bold mb-4 bg-hero-gradient bg-clip-text text-transparent">
             Experience Journey
@@ -119,9 +131,9 @@ export const ExperienceSection = () => {
         {/* Road/Timeline as a div */}
         <div
           ref={roadRef}
-          className="absolute left-1/2 bottom-0 w-1 bg-gradient-to-b from-primary via-primary-glow to-primary transform -translate-x-1/2 opacity-30 hidden md:block"
+          className="absolute left-1/2 bottom-0 w-1 bg-gradient-to-b from-primary via-primary-glow to-primary transform -translate-x-1/2 opacity-30 hidden lg:block"
           style={{
-            top: "10%",
+            top: "5%",
           }}
         >
           <motion.div
@@ -135,11 +147,11 @@ export const ExperienceSection = () => {
 
         {/* Animated Car */}
         <motion.div
-          className="absolute z-20 hidden md:block top-0"
+          className="absolute z-20 hidden lg:block top-0"
           style={{
             left: 'calc(50% - 1rem)', // center horizontally, adjust for car width
             y: carY,
-            top: "10%"
+            top: "5%"
           }}
         >
           <F1CarIcon className="w-8 h-16" />
@@ -174,8 +186,7 @@ export const ExperienceSection = () => {
               transition={{ duration: 0.8, delay: index * 0.2 }}
               className={`flex ${exp.side === "left" ? "justify-start" : "justify-end"}`}
             >
-              <Card className={`w-full max-w-md p-6 bg-card/80 backdrop-blur-sm border-border/50 shadow-elegant hover:shadow-glow transition-all duration-300 ${exp.side === "left" ? "mr-auto ml-0" : "ml-auto mr-0"
-                }`}>
+              <Card className={`w-full max-w-lg p-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-elegant hover:shadow-glow transition-all duration-300 mx-4 ${exp.side === "left" ? "mr-auto ml-0" : "ml-auto mr-0"}`}>
                 <div className="space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
@@ -192,9 +203,11 @@ export const ExperienceSection = () => {
                     <div className="w-4 h-4 bg-primary rounded-full border-4 border-background shadow-glow animate-glow"></div>
                   </div>
 
-                  <p className="text-muted-foreground leading-relaxed">
-                    {exp.description}
-                  </p>
+                  <ul className="list-disc pl-5 text-muted-foreground leading-relaxed space-y-2">
+                    {exp.description.map((point, idx) => (
+                      <li key={idx}>{point}</li>
+                    ))}
+                  </ul>
 
                   <div className="flex flex-wrap gap-2">
                     {exp.technologies.map((tech) => (

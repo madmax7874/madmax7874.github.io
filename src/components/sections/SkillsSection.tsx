@@ -170,7 +170,7 @@ export const SkillsSection = () => {
         </div> : null}
 
         {/* Technologies */}
-        <div className="mb-16">
+        <div className="">
           <motion.h3
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
