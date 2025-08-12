@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Github, Linkedin, Mail, Download } from 'lucide-react';
-import profileImage from '@/assets/profile.jpg';
+import profileImage from '@/assets/Rushabh Shah white bg.png';
 
 export const HeroSection = () => {
   return (
@@ -56,18 +56,21 @@ export const HeroSection = () => {
             <Button 
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow hover:shadow-elegant transition-all duration-300"
+              asChild
             >
-              <Mail className="mr-2 h-5 w-5" />
-              Get In Touch
+              <a href="mailto:rushabhshah@umass.edu">
+                <Mail className="mr-2 h-5 w-5" />
+                Get In Touch
+              </a>
             </Button>
-            <Button 
+            {/* <Button 
               variant="outline" 
               size="lg"
               className="border-primary/20 text-primary hover:bg-primary/10 hover:border-primary/40 transition-all duration-300"
             >
               <Download className="mr-2 h-5 w-5" />
               Download CV
-            </Button>
+            </Button> */}
           </motion.div>
 
           {/* About Me Card */}

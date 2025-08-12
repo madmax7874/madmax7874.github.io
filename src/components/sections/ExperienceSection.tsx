@@ -176,7 +176,7 @@ export const ExperienceSection = () => {
         </motion.div>
 
         {/* Experience Cards */}
-        <div className="space-y-24 relative z-10">
+        <div className="relative z-10 grid grid-cols-12 gap-y-8">
           {experiences.map((exp, index) => (
             <motion.div
               key={exp.id}
@@ -184,9 +184,23 @@ export const ExperienceSection = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              className={`flex ${exp.side === "left" ? "justify-start" : "justify-end"}`}
+              className={
+                `col-span-12 flex justify-center lg:col-span-12 ` +
+                (exp.side === "left"
+                  ? "lg:justify-start"
+                  : "lg:justify-end")
+              }
             >
-              <Card className={`w-full max-w-lg p-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-elegant hover:shadow-glow transition-all duration-300 mx-4 ${exp.side === "left" ? "mr-auto ml-0" : "ml-auto mr-0"}`}>
+              <Card
+                className={
+                  `w-full p-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-elegant hover:shadow-glow transition-all duration-300 mx-4 ` +
+                  `max-w-full sm:max-w-2xl lg:max-w-lg ` +
+                  `col-span-10 ` +
+                  (exp.side === "left"
+                    ? "lg:mr-auto lg:ml-0"
+                    : "lg:ml-auto lg:mr-0")
+                }
+              >
                 <div className="space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
