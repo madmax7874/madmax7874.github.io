@@ -6,6 +6,7 @@ import { EducationSection } from '@/components/sections/EducationSection';
 import { ProjectsSection } from '@/components/sections/ProjectsSection';
 import { SkillsSection } from '@/components/sections/SkillsSection';
 import { ContactSection } from '@/components/sections/ContactSection';
+import { Footer } from '@/components/sections/Footer';
 
 export const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -47,6 +48,7 @@ export const Portfolio = () => {
       <ProjectsSection />
       <SkillsSection />
       <ContactSection />
+      <Footer />
     </div>
   );
 };

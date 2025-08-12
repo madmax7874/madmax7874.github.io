@@ -88,7 +88,7 @@ const languages = [
 
 export const SkillsSection = () => {
   return (
-    <section id="skills" className="py-20 relative overflow-hidden">
+    <section id="skills" className="py-12 relative overflow-hidden">
       <div className="absolute inset-0 bg-starry-bg opacity-20"></div>
 
       <div className="container mx-auto px-4 relative z-10">

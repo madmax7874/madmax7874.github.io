@@ -46,7 +46,7 @@ const socialLinks = [
 
 export const ContactSection = () => {
   return (
-    <section id="contact" className="py-20 relative overflow-hidden">
+    <section id="contact" className="py-12 relative overflow-hidden">
       <div className="absolute inset-0 bg-night-gradient opacity-20"></div>
       <div className="absolute inset-0 bg-starry-bg opacity-30"></div>
 

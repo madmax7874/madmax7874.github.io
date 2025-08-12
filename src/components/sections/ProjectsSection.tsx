@@ -43,7 +43,7 @@ const publications = [
 
 export const ProjectsSection = () => {
   return (
-    <section id="projects" className="py-20 relative overflow-hidden">
+    <section id="projects" className="py-12 relative overflow-hidden">
       <div className="absolute inset-0 bg-night-gradient opacity-10"></div>
       
       <div className="container mx-auto px-4 relative z-10">
