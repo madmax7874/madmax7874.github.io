@@ -6,19 +6,23 @@ import { GraduationCap, Award, BookOpen } from 'lucide-react';
 const education = [
   {
     id: 1,
-    degree: "Masters of Science in Computer Science",
+    degree: "Master's of Science in Computer Science",
     institution: "University of Massachusetts, Amherst",
-    year: "Aug 2025 - Present",
-    description: "Specialized in Machine Learning and Distributed Systems. Graduated Magna Cum Laude.",
+    year: "Aug 2025 - May 2027",
+    gpa: "4/4",
+    courses: ["Machine Learning", "Information Retrieval", "Computer and Network Security"],
+    description: "Focused on advanced topics in machine learning, security, and information retrieval. Developed research and practical skills through hands-on projects and coursework. Enhanced my ability to solve complex problems and collaborate in diverse teams.",
     achievements: [],
     icon: GraduationCap
   },
   {
     id: 2,
-    degree: "Bachelor of Technology in Computer Engineering",
-    institution: "Dwarkadas J Sanghvi College of Engineering",
+    degree: "Bachelor's of Technology, Computer Engineering",
+    institution: "Dwarkadas J Sanghvi College of Engineering, Mumbai",
     year: "Aug 2019 - May 2023",
-    description: "Comprehensive study of software development, algorithms, and system design.",
+    gpa: "9.11/10",
+    courses: ["Data Structures and Algorithms", "Database Management Systems", "Artificial Intelligence", "Natural Language Processing"],
+    description: "Built a strong foundation in computer engineering, covering algorithms, databases, and AI. Participated in multiple academic and extracurricular projects, fostering teamwork and leadership. Graduated with distinction and a deep understanding of core CS principles.",
     achievements: [],
     icon: BookOpen
   }
@@ -66,7 +70,7 @@ export const EducationSection = () => {
             Academic Background
           </motion.h3>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-8">
             {education.map((edu, index) => (
               <motion.div
                 key={edu.id}
@@ -90,12 +94,41 @@ export const EducationSection = () => {
                       <p className="text-sm text-muted-foreground">
                         {edu.year}
                       </p>
+                      {edu.gpa && (
+                        <p className="text-sm text-muted-foreground">GPA: {edu.gpa}</p>
+                      )}
                     </div>
                   </div>
 
-                  <p className="text-muted-foreground mb-4 leading-relaxed">
-                    {edu.description}
-                  </p>
+                  {edu.description && (
+                    <p className="text-muted-foreground mb-2 leading-relaxed">
+                      {edu.description}
+                    </p>
+                  )}
+                  {edu.courses && edu.courses.length > 0 && (
+                    <div className="mt-2">
+                      <span className="font-semibold text-foreground block mb-2">Courses:</span>
+                      <div className="flex flex-wrap gap-3">
+                        {edu.courses.map((course, idx) => (
+                          <motion.div
+                            key={course}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: idx * 0.05 }}
+                            whileHover={{ scale: 1.05, y: -2 }}
+                          >
+                            <Badge
+                              variant="secondary"
+                              className="bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 cursor-pointer px-4 py-2 text-sm"
+                            >
+                              {course}
+                            </Badge>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {edu.achievements.length ? <div className="space-y-2">
                     <p className="text-sm font-medium text-foreground">Key Achievements:</p>
