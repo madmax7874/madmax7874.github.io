@@ -40,19 +40,21 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
           : 'bg-transparent'
       }`}
     >
+
       <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+        <div className="grid grid-cols-3 items-center justify-between">
+          {/* Logo (left) */}
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="font-bold text-xl bg-hero-gradient bg-clip-text text-transparent"
+            className="font-bold text-xl bg-hero-gradient bg-clip-text text-transparent justify-self-start"
           >
             RS
           </motion.div>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-1">
+          {/* Desktop Nav (center) */}
+          <div className="hidden md:flex items-center justify-center space-x-1 col-start-2">
             {navItems.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -61,7 +63,7 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
                 transition={{ delay: 0.1 * index }}
               >
                 <Button
-                  variant={activeSection === item.id ? "default" : "ghost"}
+                  variant={activeSection === item.id ? 'default' : 'ghost'}
                   size="sm"
                   onClick={() => onSectionChange(item.id)}
                   className={`transition-all duration-300 ${
@@ -76,8 +78,8 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
             ))}
           </div>
 
-          {/* Mobile Hamburger */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Hamburger (center on mobile, hidden on desktop) */}
+          <div className="col-start-2 flex justify-center md:hidden">
             <button
               type="button"
               className="inline-flex items-center justify-center p-2 rounded-md text-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-primary"
@@ -103,10 +105,12 @@ export const Navigation = ({ activeSection, onSectionChange }: NavigationProps) 
             </button>
           </div>
 
+          {/* Theme Toggle (right) */}
           <motion.div
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
+            className="justify-self-end"
           >
             <ThemeToggle />
           </motion.div>

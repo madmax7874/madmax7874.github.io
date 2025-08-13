@@ -171,7 +171,7 @@ export const SkillsSection = () => {
 
         {/* Technologies */}
         <div className="">
-          <motion.h3
+          {/* <motion.h3
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -179,7 +179,7 @@ export const SkillsSection = () => {
           >
             <Globe className="h-6 w-6" />
             Technologies & Tools
-          </motion.h3>
+          </motion.h3> */}
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {technologyCategories.map((category, catIdx) => (

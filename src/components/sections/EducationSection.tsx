@@ -60,7 +60,7 @@ export const EducationSection = () => {
 
         {/* Education */}
         <div className="">
-          <motion.h3
+          {/* <motion.h3
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -68,7 +68,7 @@ export const EducationSection = () => {
           >
             <GraduationCap className="h-6 w-6" />
             Academic Background
-          </motion.h3>
+          </motion.h3> */}
 
           <div className="grid lg:grid-cols-2 gap-8">
             {education.map((edu, index) => (
