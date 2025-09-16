@@ -12,7 +12,7 @@ const contactInfo = [
   {
     icon: Phone,
     label: "Phone",
-    value: "+91 (413) 409-0945",
+    value: "+1 (413) 409-0945",
     href: "tel:+14134090945"
   },
   {
