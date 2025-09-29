@@ -122,13 +122,35 @@ export const ProjectsSection = () => {
                     </div>
                     
                     <div className="flex gap-3">
-                      <Button size="sm" className="flex-1">
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Live Demo
+                      <Button
+                        asChild
+                        size="sm"
+                        className="flex-1"
+                      >
+                        <a
+                          href={project.liveUrl || '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink className="mr-2 h-4 w-4" />
+                          Live Demo
+                        </a>
                       </Button>
-                      <Button variant="outline" size="sm" className="flex-1">
-                        <Github className="mr-2 h-4 w-4" />
-                        Code
+
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="flex-1"
+                      >
+                        <a
+                          href={project.githubUrl || '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Github className="mr-2 h-4 w-4" />
+                          Code
+                        </a>
                       </Button>
                     </div>
                   </div>
@@ -172,8 +194,15 @@ export const ProjectsSection = () => {
                         {pub.description}
                       </p>
                     </div>
-                    <Button variant="ghost" size="sm" className="ml-4">
-                      <ExternalLink className="h-4 w-4" />
+                    <Button asChild variant="ghost" size="sm" className="ml-4">
+                      <a
+                        href={pub.url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Open ${pub.title} in new tab`}
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
                     </Button>
                   </div>
                 </Card>
