@@ -8,41 +8,34 @@ const experiences = [
   {
     id: 1,
     company: "Institutional Shareholder Services",
-    position: "Software Developer",
-    duration: "Feb 2025 - Jul 2025",
+    position: "Software Development Engineer",
+    duration: "Jul 2023 - Jul 2025",
     description: [
-      "Designed automated alerting systems and centralized alert managers across Node.js, Java, and Python, integrating with Slack, Teams, and email for root-level traceability.",
-      "Built high-accuracy data extraction systems, scalable financial web crawlers, and a PDF-to-HTML converter with 98% parsing accuracy, reducing manual intervention and boosting operational efficiency."
+      "Upgraded the core ISS file storage and retrieval system by implementing a hybrid approach utilizing vector storage and RAG, reducing average query latency by 65% (from 500ms to 175ms) with a high retrieval F1-score of 0.62+.",
+      "Developed real-time ETL pipeline aggregating 15M+ daily rows of data into InfluxDB with visualizations for data analytics, which helped catch node crashes during peaks and prevented 80% of resource wastage from idle nodes.",
+      "Demonstrated strong team collaboration while designing a fintech data extraction system that parsed unstructured documents using Named Entity Recognition and fine-tuned LLMs, achieving 96% accuracy and eliminating manual data entry.",
+      "Coded scalable web crawlers in Java and TypeScript for 12+ countries fetching 50+ documents from financial markets daily.",
+      "Built a React dashboard to monitor 8+ applications, widely adopted by Data Architecture team, reducing debugging time by 60%.",
+      "Worked on PDF-to-HTML converter in Java and JavaScript adding position-aware logic, improving parsing accuracy to 98%."
     ],
-    technologies: ["Python", "Java", "Node.js", "MySQL", "Grafana", "Kuma", "Slack API", "PDFBox", "Regex", "Machine Learning"],
+    technologies: ["Java", "TypeScript", "Python", "React", "InfluxDB", "Vector Storage", "RAG", "LLM", "NER", "Grafana"],
     side: "left"
   },
   {
     id: 2,
-    company: "Institutional Shareholder Services",
-    position: "Junior Software Developer",
-    duration: "Jul 2023 - Jan 2025",
+    company: "Vedika AI",
+    position: "Lead Software Engineer Intern",
+    duration: "Mar 2023 - Jul 2023",
     description: [
-      "Engineered real-time ETL pipelines from Kafka, Kubernetes, MongoDB, and Redis into InfluxDB, creating actionable Grafana visualizations for analytics and resource planning.",
-      "Built custom dashboards and a React-based monitoring tool adopted company-wide, halving debugging times for 8+ applications."
+      "Stepped up to lead daily scrums and development sprints in CTO's absence, delivering the MVP on time which contributed to the company being selected as a top 50 EdTech startup globally in the 2024 GSV Cup.",
+      "Architected the entire application infrastructure, utilizing Next.js for the frontend dashboard and Python on AWS for the backend, designing scalable workflows that supported large-scale data ingestion.",
+      "Utilized LangChain to perform advanced prompt engineering on LLMs, enabling the system to generate highly personalized educational content and engineered a data pipeline processing 700GB of content."
     ],
-    technologies: ["Java", "React", "Kafka", "Kubernetes", "MongoDB", "Redis", "InfluxDB", "Grafana"],
+    technologies: ["Next.js", "Python", "AWS", "LangChain", "LLM", "Prompt Engineering"],
     side: "right"
   },
   {
     id: 3,
-    company: "Vedika.ai",
-    position: "Software Developer Intern",
-    duration: "Mar 2023 - Jul 2023",
-    description: [
-      "Led end-to-end MVP development, translating 100+ Figma frames into a Next.js frontend, architecting Python-based backends, and designing complete MongoDB schemas.",
-      "Implemented AI-powered features including LLM prompt engineering, OCR-based OMR scoring, and vector database content structuring and retrieval to enhance LLM performance."
-    ],
-    technologies: ["Next.js", "AWS", "Python", "LangChain", "MongoDB", "Vector DB", "OCR", "PayPal API", "YouTube API", "TikTok API", "Figma"],
-    side: "left"
-  },
-  {
-    id: 4,
     company: "Buyceps",
     position: "Software Developer Intern",
     duration: "Dec 2022 - Mar 2023",
@@ -51,22 +44,23 @@ const experiences = [
       "Optimized backend APIs and improved overall site performance for smoother customer experiences."
     ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "Redux", "JavaScript"],
+    side: "left"
+  },
+  {
+    id: 4,
+    company: "Studypaq",
+    position: "Software Engineer Intern",
+    duration: "Jun 2022 - Dec 2022",
+    description: [
+      "Led the website redesign and development of 10+ features using Angular and Sass, optimizing site performance to achieve a 50% boost in SEO scores while crafting a responsive interface that significantly increased mobile conversion rates.",
+      "Integrated PayPal REST APIs for secure and seamless payment processing, and leveraged TikTok & YouTube APIs to source personalized content, driving engagement to 5000+ TikTok views and processing 100+ daily transactions.",
+      "Implemented CI/CD pipelines using Docker, Jenkins, and AWS for frontend and backend, cutting deployment time by 80%."
+    ],
+    technologies: ["Angular", "Sass", "PayPal API", "TikTok API", "YouTube API", "Docker", "Jenkins", "AWS", "CI/CD"],
     side: "right"
   },
   {
     id: 5,
-    company: "Studypaq",
-    position: "Software Developer Intern",
-    duration: "Jun 2022 - Dec 2022",
-    description: [
-      "Implemented new platform features for a collaborative learning environment.",
-      "Optimized performance and ensured seamless, responsive UI across devices."
-    ],
-    technologies: ["React", "Node.js", "Express.js", "MongoDB", "AWS S3", "JavaScript"],
-    side: "left"
-  },
-  {
-    id: 6,
     company: "Dreams International",
     position: "Full-Stack Developer Intern",
     duration: "Jul 2021 - Oct 2021",
@@ -75,7 +69,7 @@ const experiences = [
       "Built REST APIs and designed efficient MySQL schemas to power content workflows."
     ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "MySQL", "Netlify", "Heroku"],
-    side: "right"
+    side: "left"
   }
 ];
 

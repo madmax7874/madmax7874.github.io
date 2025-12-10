@@ -4,27 +4,30 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ExternalLink, Github, FileText } from 'lucide-react';
 
-const projects = [
-  // {
-  //   id: 1,
-  //   title: "E-Commerce Platform",
-  //   description: "A full-stack e-commerce solution with real-time inventory management, payment processing, and admin dashboard.",
-  //   image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d",
-  //   technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "AWS"],
-  //   liveUrl: "#",
-  //   githubUrl: "#",
-  //   category: "Web Development"
-  // }
-];
+const projects = [];
 
 const publications = [
+  {
+    title: "Retrieval Self Distillation for Multi-Hop Question Answering Datasets",
+    journal: "Information Retrieval project",
+    year: "2025",
+    description: "Distilling efficient document ranking capabilities from LLM (teacher) to a smaller language model (student) to enable complex RAG capabilities on edge devices increasing efficiency. Evaluating the results on HotpotQA and MuSiQue datasets.",
+    url: "#"
+  },
   {
     title: "Track Learning Agent Using Multi-objective Reinforcement Learning",
     journal: "Congress on Intelligent Systems",
     year: "2024",
-    description: "Proposed a Pareto Q-learning based Multi-Objective Reinforcement Learning (MORL) framework for track navigation, enabling agents to simultaneously optimize conflicting goals such as minimizing steps, maximizing rewards, and avoiding collisions.",
+    description: "Unfolded Multi-objective Reinforcement Learning (MORL) agent using Pareto Q-learning that achieved optimal trade-offs between conflicting objectives (speed, comfort, crashes), resulting in a 95% success rate per track. Published as lead author in Springer (ISBN: 978-981-99-9037-5).",
     url: "https://link.springer.com/chapter/10.1007/978-981-99-9037-5_3"
   },
+  // {
+  //   title: "Track Learning Agent Using Multi-objective Reinforcement Learning",
+  //   journal: "Congress on Intelligent Systems",
+  //   year: "2024",
+  //   description: "Proposed a Pareto Q-learning based Multi-Objective Reinforcement Learning (MORL) framework for track navigation, enabling agents to simultaneously optimize conflicting goals such as minimizing steps, maximizing rewards, and avoiding collisions.",
+  //   url: "https://link.springer.com/chapter/10.1007/978-981-99-9037-5_3"
+  // },
   {
     title: "Easier Web Navigation Using Intent Classification, Web Scarping and NLP Approaches",
     journal: "5th International Conference on Advances in Science and Technology (ICAST)",
@@ -34,7 +37,7 @@ const publications = [
   },
   {
     title: "Travel Buddy",
-    journal: "",
+    journal: "Lines of Code Hackathon (Finalist)",
     year: "2022",
     description: "Full-stack travel planning platform in React, built with a consistent design language and clean code practices, featuring itinerary creation, checklists, and expense tracking through interactive visualizations.",
     url: "your-travel-buddy.netlify.app"
