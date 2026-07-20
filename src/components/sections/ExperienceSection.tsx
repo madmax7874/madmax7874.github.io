@@ -6,6 +6,33 @@ import F1CarIcon from '@/assets/F1CarIcon.tsx';
 
 const experiences = [
   {
+    id: 6,
+    company: "Lightmatter",
+    position: "Software Engineer Intern",
+    duration: "May 2026 - Present",
+    description: [
+      "Engineered high-throughput telemetry pipelines and backend services by evaluating MQTT vs. Kafka message brokers and benchmarking 5 database architectures (MongoDB, PostgreSQL, InfluxDB, Snowflake, MongoDB Timeseries), deploying Python and MQTT infrastructure across AWS and physical racks with bunkerM to increase telemetry data throughput by 3x and optimize memory efficiency for real-time chip metrics.",
+      "Released automated configuration and deployment mechanisms within the Failure In Test (FIT) Orchestrator, building GUI controls for hardware/software versioning and surfacing automated monitoring modes on rack dashboards to eliminate manual hardware tuning and cut setup time by 40%.",
+      "Optimized low-latency database queries and backend endpoints for key monitoring interfaces (JP-GUI), resolving performance bottlenecks on historical BER endpoints and accelerating end-to-end telemetry retrieval by 60% to prepare backend services for customer production releases.",
+      "Engineered Kubernetes deployment pipelines to migrate legacy Ansible server infrastructure, automating release processes to reduce manual deployment steps by 80% for system configuration updates."
+    ],
+    technologies: ["Python", "MongoDB", "MQTT", "Kafka", "AWS", "Kubernetes", "Snowflake"],
+    side: "left"
+  },
+  {
+    id: 7,
+    company: "American Equity",
+    position: "Software Engineer Intern",
+    duration: "Mar 2025 - May 2025",
+    description: [
+      "Architected AWS API Gateway proxy layer to intercept traffic, eliminating 100% of direct endpoint exposure.",
+      "Engineered a secure Tableau Cloud embedding framework using JWT for SSO, accelerating enterprise license procurement.",
+      "Spearheaded an AI sprint to implement tickets using LLM models via spec-driven development, validating outputs for enterprise deployment and establishing training frameworks for cross-functional teams."
+    ],
+    technologies: ["AWS", "API Gateway", "Tableau Cloud", "JWT", "LLM", "Python"],
+    side: "right"
+  },
+  {
     id: 1,
     company: "Institutional Shareholder Services",
     position: "Software Development Engineer",
