@@ -1,8 +1,9 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useLayoutEffect, useState } from 'react';
+import React from 'react';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import F1CarIcon from '@/assets/F1CarIcon.tsx';
+
 
 const experiences = [
   {
@@ -17,7 +18,7 @@ const experiences = [
       "Engineered Kubernetes deployment pipelines to migrate legacy Ansible server infrastructure, automating release processes to reduce manual deployment steps by 80% for system configuration updates."
     ],
     technologies: ["Python", "MongoDB", "MQTT", "Kafka", "AWS", "Kubernetes", "Snowflake"],
-    side: "left"
+    side: "right"
   },
   {
     id: 7,
@@ -30,7 +31,7 @@ const experiences = [
       "Spearheaded an AI sprint to implement tickets using LLM models via spec-driven development, validating outputs for enterprise deployment and establishing training frameworks for cross-functional teams."
     ],
     technologies: ["AWS", "API Gateway", "Tableau Cloud", "JWT", "LLM", "Python"],
-    side: "right"
+    side: "left"
   },
   {
     id: 1,
@@ -46,7 +47,7 @@ const experiences = [
       "Worked on PDF-to-HTML converter in Java and JavaScript adding position-aware logic, improving parsing accuracy to 98%."
     ],
     technologies: ["Java", "TypeScript", "Python", "React", "InfluxDB", "Vector Storage", "RAG", "LLM", "NER", "Grafana"],
-    side: "left"
+    side: "right"
   },
   {
     id: 2,
@@ -59,7 +60,7 @@ const experiences = [
       "Utilized LangChain to perform advanced prompt engineering on LLMs, enabling the system to generate highly personalized educational content and engineered a data pipeline processing 700GB of content."
     ],
     technologies: ["Next.js", "Python", "AWS", "LangChain", "LLM", "Prompt Engineering"],
-    side: "right"
+    side: "left"
   },
   {
     id: 3,
@@ -71,7 +72,7 @@ const experiences = [
       "Optimized backend APIs and improved overall site performance for smoother customer experiences."
     ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "Redux", "JavaScript"],
-    side: "left"
+    side: "right"
   },
   {
     id: 4,
@@ -84,7 +85,7 @@ const experiences = [
       "Implemented CI/CD pipelines using Docker, Jenkins, and AWS for frontend and backend, cutting deployment time by 80%."
     ],
     technologies: ["Angular", "Sass", "PayPal API", "TikTok API", "YouTube API", "Docker", "Jenkins", "AWS", "CI/CD"],
-    side: "right"
+    side: "left"
   },
   {
     id: 5,
@@ -96,40 +97,172 @@ const experiences = [
       "Built REST APIs and designed efficient MySQL schemas to power content workflows."
     ],
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "MySQL", "Netlify", "Heroku"],
-    side: "left"
+    side: "right"
   }
 ];
 
+// --- SVG path generation ---
+// The track is an S-curve that swings to the right side for "right" experiences
+// and to the left side for "left" experiences.
+// We build the path as a series of cubic bezier curves.
+//
+// Coordinate system:
+//   x: 0 (left edge) to TRACK_WIDTH (right edge)
+//   y: grows downward
+//
+// Each experience occupies a vertical "slot". Between slots the road curves
+// from one side to the other.
+
+const TRACK_WIDTH = 1200;  // SVG viewBox width
+const CARD_HEIGHT = 420;   // vertical space per experience slot
+const CURVE_TRANSITION = 400; // vertical space for S-curve transition between cards
+const PADDING_TOP = 60;
+const PADDING_BOTTOM = 60;
+
+// The x positions the road reaches on each side
+const X_RIGHT = TRACK_WIDTH * 0.82; // rightmost point
+const X_LEFT = TRACK_WIDTH * 0.18;  // leftmost point
+const X_CENTER = TRACK_WIDTH * 0.5;
+
+function buildTrackPath(): { path: string; totalHeight: number; cardPositions: { x: number; y: number; side: string }[] } {
+  const cardPositions: { x: number; y: number; side: string }[] = [];
+  let d = '';
+  let y = PADDING_TOP;
+
+  // Start from center top with a short straight section
+  d += `M ${X_CENTER} ${y}`;
+  const startStraightY = y + 40;
+  d += ` L ${X_CENTER} ${startStraightY}`;
+  y = startStraightY;
+
+  for (let i = 0; i < experiences.length; i++) {
+    const exp = experiences[i];
+    const targetX = exp.side === 'right' ? X_RIGHT : X_LEFT;
+    const prevX = i === 0 ? X_CENTER : (experiences[i - 1].side === 'right' ? X_RIGHT : X_LEFT);
+
+    // Curve from previous position to this experience's side
+    if (i === 0) {
+      // First: curve from center to target side
+      const curveEndY = y + CURVE_TRANSITION;
+      const cp1x = prevX;
+      const cp1y = y + CURVE_TRANSITION * 0.5;
+      const cp2x = targetX;
+      const cp2y = curveEndY - CURVE_TRANSITION * 0.5;
+      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${targetX} ${curveEndY}`;
+      y = curveEndY;
+    } else if (prevX !== targetX) {
+      // S-curve transition between sides
+      const curveEndY = y + CURVE_TRANSITION;
+      const cp1x = prevX;
+      const cp1y = y + CURVE_TRANSITION * 0.4;
+      const cp2x = targetX;
+      const cp2y = curveEndY - CURVE_TRANSITION * 0.4;
+      d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${targetX} ${curveEndY}`;
+      y = curveEndY;
+    }
+
+    // Record the position where the card should appear (at the start of the straight)
+    const cardY = y + CARD_HEIGHT * 0.5;
+    cardPositions.push({ x: targetX, y: cardY, side: exp.side });
+
+    // Straight (or very slight) segment while at this side
+    const straightEndY = y + CARD_HEIGHT;
+    d += ` L ${targetX} ${straightEndY}`;
+    y = straightEndY;
+  }
+
+  // End: go back to center then continue straight down
+  const lastX = experiences[experiences.length - 1].side === 'right' ? X_RIGHT : X_LEFT;
+  const endY = y + CURVE_TRANSITION;
+  d += ` C ${lastX} ${y + CURVE_TRANSITION * 0.5}, ${X_CENTER} ${endY - CURVE_TRANSITION * 0.5}, ${X_CENTER} ${endY}`;
+  // Straight segment so the car ends pointing straight down
+  const finalY = endY + 120;
+  d += ` L ${X_CENTER} ${finalY}`;
+  y = finalY + PADDING_BOTTOM;
+
+  return { path: d, totalHeight: y, cardPositions };
+}
+
 export const ExperienceSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const roadRef = useRef<HTMLDivElement>(null);
-  const [carY, setCarY] = useState(0);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+  const trailPathRef = useRef<SVGPathElement>(null);
+  const [carPos, setCarPos] = useState<{ x: number; y: number; angle: number }>({ x: X_CENTER, y: PADDING_TOP, angle: 90 });
+  const [trackData] = useState(() => buildTrackPath());
+  const [svgScale, setSvgScale] = useState(1);
+  const [renderedHeight, setRenderedHeight] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"]
+    offset: ["start start", "end end"]
   });
 
-  const progressPercentage = useTransform(scrollYProgress, (latest) => {
-    const section = containerRef.current;
-    if (!section) return 0;
-    const offsetRatio = 125 / window.innerHeight;
-    if (latest < offsetRatio) return 0;
-    const scaled = (latest - offsetRatio) / (1 - offsetRatio);
-    return Math.min(scaled / (1 - offsetRatio), 1);
+  // Compute the ratio between SVG coordinate space and rendered pixels
+  const updateScale = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    // The SVG fills the container width; compute scale from that
+    const containerWidth = container.querySelector('.experience-track-wrapper')?.getBoundingClientRect().width ?? container.getBoundingClientRect().width;
+    const scale = containerWidth / TRACK_WIDTH;
+    setSvgScale(scale);
+    setRenderedHeight(trackData.totalHeight * scale);
+  }, [trackData.totalHeight]);
+
+  useEffect(() => {
+    // Small delay to ensure DOM layout has been computed
+    const timer = setTimeout(() => {
+      updateScale();
+      const pathEl = pathRef.current;
+      if (pathEl) {
+        const startPoint = pathEl.getPointAtLength(0);
+        const nextPoint = pathEl.getPointAtLength(Math.min(4, pathEl.getTotalLength()));
+        const dx = nextPoint.x - startPoint.x;
+        const dy = nextPoint.y - startPoint.y;
+        const initialAngle = (Math.abs(dx) > 0.0001 || Math.abs(dy) > 0.0001)
+          ? Math.atan2(dy, dx) * (180 / Math.PI)
+          : 90;
+        setCarPos({ x: startPoint.x, y: startPoint.y, angle: initialAngle });
+      }
+    }, 50);
+
+    window.addEventListener('resize', updateScale);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateScale);
+    };
+  }, [updateScale]);
+
+  // Map scroll progress to car progress
+  const progressPercentage = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  // Update car position along the SVG path + trail
+  useMotionValueEvent(progressPercentage, "change", (progress) => {
+    const pathEl = pathRef.current;
+    const trailEl = trailPathRef.current;
+    if (!pathEl) return;
+
+    const totalLength = pathEl.getTotalLength();
+    const currentLength = totalLength * Math.max(0, Math.min(progress, 1));
+
+    // Update trail
+    if (trailEl) {
+      trailEl.style.strokeDasharray = `${currentLength} ${totalLength}`;
+    }
+
+    // Get current point and tangent using centered difference
+    const point = pathEl.getPointAtLength(currentLength);
+    const delta = 2;
+    const pPrev = pathEl.getPointAtLength(Math.max(0, currentLength - delta));
+    const pNext = pathEl.getPointAtLength(Math.min(totalLength, currentLength + delta));
+    const dx = pNext.x - pPrev.x;
+    const dy = pNext.y - pPrev.y;
+    const angle = (Math.abs(dx) > 0.0001 || Math.abs(dy) > 0.0001)
+      ? Math.atan2(dy, dx) * (180 / Math.PI)
+      : 90;
+
+    setCarPos({ x: point.x, y: point.y, angle });
   });
-
-  useLayoutEffect(() => {
-    const road = roadRef.current;
-    if (!road) return;
-    const roadRect = road.getBoundingClientRect();
-
-    const unsubscribe = progressPercentage.on("change", (progress) => {
-      setCarY(roadRect.height * progress);
-    });
-
-    return () => unsubscribe();
-  }, [progressPercentage]);
 
   return (
     <section id="experience" className="py-20 relative overflow-hidden" ref={containerRef}>
@@ -149,119 +282,239 @@ export const ExperienceSection = () => {
           </p>
         </motion.div>
 
-        {/* Road/Timeline as a div */}
-        <div
-          ref={roadRef}
-          className="absolute left-1/2 bottom-0 w-1 bg-gradient-to-b from-primary via-primary-glow to-primary transform -translate-x-1/2 opacity-30 hidden lg:block"
-          style={{
-            top: "5%",
-          }}
-        >
-          <motion.div
-            className="w-full bg-primary"
-            style={{
-              height: progressPercentage,
-              // transition: "height 0.3s ease-out"
-            }}
-          />
+        {/* --- Track + Car layer (desktop only) --- */}
+        <div className="experience-track-wrapper relative hidden lg:block" style={{ height: renderedHeight || 'auto' }}>
+          {/* SVG Track */}
+          <svg
+            ref={svgRef}
+            className="absolute inset-0 w-full pointer-events-none"
+            viewBox={`0 0 ${TRACK_WIDTH} ${trackData.totalHeight}`}
+            preserveAspectRatio="xMidYMin meet"
+            style={{ height: '100%' }}
+          >
+            {/* Road surface (wide, faded) */}
+            <path
+              d={trackData.path}
+              fill="none"
+              strokeWidth="48"
+              strokeLinecap="round"
+              className="stroke-muted-foreground/10"
+            />
+            {/* Road outline */}
+            <path
+              d={trackData.path}
+              fill="none"
+              strokeWidth="4"
+              strokeLinecap="round"
+              className="stroke-muted-foreground/20"
+            />
+            {/* Hidden full path for measuring */}
+            <path
+              ref={pathRef}
+              d={trackData.path}
+              fill="none"
+              stroke="transparent"
+              strokeWidth="1"
+            />
+            {/* Glowing trail behind car */}
+            <path
+              ref={trailPathRef}
+              d={trackData.path}
+              fill="none"
+              strokeWidth="6"
+              strokeLinecap="round"
+              className="stroke-primary"
+              style={{
+                strokeDasharray: '0 99999',
+                filter: 'drop-shadow(0 0 6px hsl(var(--primary) / 0.6))',
+              }}
+            />
+            {/* Dashed center line */}
+            <path
+              d={trackData.path}
+              fill="none"
+              strokeWidth="2"
+              strokeDasharray="16 24"
+              className="stroke-muted-foreground/30"
+            />
+            {/* Dots at experience positions */}
+            {trackData.cardPositions.map((pos, i) => (
+              <circle
+                key={i}
+                cx={pos.x}
+                cy={pos.y}
+                r="10"
+                className="fill-primary/30"
+              />
+            ))}
+            {/* Car rendered inside SVG — F1 proportions: ~2.8:1 length:width */}
+            <g transform={`translate(${carPos.x}, ${carPos.y}) rotate(${carPos.angle + 90})`}>
+              {/* Glow */}
+              <ellipse rx="16" ry="32" fill="hsl(var(--primary))" opacity="0.16" filter="url(#carGlow)" />
+
+              {/* Rear wing main plane */}
+              <rect x="-13" y="24" width="26" height="3" rx="0.8" fill="hsl(var(--accent))" />
+              {/* Rear wing DRS line */}
+              <line x1="-12" y1="25.5" x2="12" y2="25.5" stroke="hsl(var(--border))" strokeWidth="0.5" opacity="0.6" />
+              {/* Rear wing endplates */}
+              <rect x="-14.5" y="22.5" width="2" height="6" rx="0.6" fill="hsl(var(--accent))" />
+              <rect x="12.5" y="22.5" width="2" height="6" rx="0.6" fill="hsl(var(--accent))" />
+              {/* Rear wing pylon / support */}
+              <rect x="-1" y="20" width="2" height="5" rx="0.5" fill="hsl(var(--accent))" opacity="0.8" />
+              {/* Rain light */}
+              <circle cx="0" cy="27" r="1.2" fill="#ef4444" />
+
+              {/* Rear wheels (wide, chunky F1 tyres: width 8.5, height 14) */}
+              <rect x="-16.5" y="8" width="8.5" height="14" rx="2.5" fill="var(--wheel-color, #111)" />
+              <rect x="8" y="8" width="8.5" height="14" rx="2.5" fill="var(--wheel-color, #111)" />
+              {/* Rear wheel rims */}
+              <rect x="-13" y="12.5" width="1.5" height="5" rx="0.5" fill="hsl(var(--primary))" opacity="0.4" />
+              <rect x="11.5" y="12.5" width="1.5" height="5" rx="0.5" fill="hsl(var(--primary))" opacity="0.4" />
+
+              {/* Rear suspension wishbones */}
+              <line x1="-6" y1="12" x2="-8.5" y2="14" stroke="hsl(var(--foreground))" strokeWidth="0.8" opacity="0.6" />
+              <line x1="6" y1="12" x2="8.5" y2="14" stroke="hsl(var(--foreground))" strokeWidth="0.8" opacity="0.6" />
+
+              {/* Main body — sleek aerodynamic F1 profile */}
+              <path
+                d="M-3,-28 L3,-28 L4,-18 L5.5,-10 L8.5,-2 L8.5,14 L7.5,21 L5,24 L-5,24 L-7.5,21 L-8.5,14 L-8.5,-2 L-5.5,-10 L-4,-18 Z"
+                fill="hsl(var(--primary))"
+                stroke="hsl(var(--border))"
+                strokeWidth="0.6"
+              />
+
+              {/* Sidepods sculpting */}
+              <path d="M-8.5,-2 L-11,2 L-11,13 L-8.5,18 Z" fill="hsl(var(--primary))" opacity="0.85" />
+              <path d="M8.5,-2 L11,2 L11,13 L8.5,18 Z" fill="hsl(var(--primary))" opacity="0.85" />
+
+              {/* Cockpit / halo safety system */}
+              <ellipse cx="0" cy="4" rx="3.5" ry="5.5" fill="hsl(var(--card))" stroke="hsl(var(--border))" strokeWidth="0.6" />
+              {/* Driver helmet */}
+              <circle cx="0" cy="5" r="2.2" fill="hsl(var(--accent))" />
+              {/* Halo bar */}
+              <path d="M-4,1 Q0,-3 4,1" fill="none" stroke="hsl(var(--foreground))" strokeWidth="1" opacity="0.9" />
+              <line x1="0" y1="-3" x2="0" y2="1.5" stroke="hsl(var(--foreground))" strokeWidth="0.9" opacity="0.9" />
+
+              {/* Front wheels (meaty F1 front tyres: width 6.5, height 13) */}
+              <rect x="-15" y="-19" width="6.5" height="13" rx="2.5" fill="var(--wheel-color, #111)" />
+              <rect x="8.5" y="-19" width="6.5" height="13" rx="2.5" fill="var(--wheel-color, #111)" />
+              {/* Front wheel rims */}
+              <rect x="-12.5" y="-14.5" width="1.5" height="4" rx="0.5" fill="hsl(var(--primary))" opacity="0.4" />
+              <rect x="11" y="-14.5" width="1.5" height="4" rx="0.5" fill="hsl(var(--primary))" opacity="0.4" />
+
+              {/* Front suspension wishbones */}
+              <line x1="-4" y1="-17" x2="-8.5" y2="-15" stroke="hsl(var(--foreground))" strokeWidth="0.8" opacity="0.6" />
+              <line x1="-5" y1="-11" x2="-8.5" y2="-13" stroke="hsl(var(--foreground))" strokeWidth="0.8" opacity="0.6" />
+              <line x1="4" y1="-17" x2="8.5" y2="-15" stroke="hsl(var(--foreground))" strokeWidth="0.8" opacity="0.6" />
+              <line x1="5" y1="-11" x2="8.5" y2="-13" stroke="hsl(var(--foreground))" strokeWidth="0.8" opacity="0.6" />
+
+              {/* Nose cone tip */}
+              <path d="M-3,-28 L3,-28 L1.8,-32 L-1.8,-32 Z" fill="hsl(var(--primary))" />
+
+              {/* Front wing */}
+              <rect x="-14" y="-33" width="28" height="2.5" rx="0.6" fill="hsl(var(--accent))" />
+              {/* Front wing endplates */}
+              <rect x="-15.5" y="-34.5" width="2" height="5.5" rx="0.6" fill="hsl(var(--accent))" />
+              <rect x="13.5" y="-34.5" width="2" height="5.5" rx="0.6" fill="hsl(var(--accent))" />
+            </g>
+            <defs>
+              <filter id="carGlow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="8" />
+              </filter>
+            </defs>
+          </svg>
+
+          {/* Experience cards positioned next to their track waypoints */}
+          {experiences.map((exp, index) => {
+            const pos = trackData.cardPositions[index];
+            // Card sits on the opposite side of the road from the curve direction
+            // If the road goes RIGHT, the card is on the RIGHT (next to the road apex)
+            const cardStyle: React.CSSProperties = {
+              position: 'absolute',
+              top: (pos.y - CARD_HEIGHT * 0.4) * svgScale,
+              width: '38%',
+              ...(pos.side === 'right'
+                ? { right: 0 }
+                : { left: 0 }),
+            };
+
+            return (
+              <motion.div
+                key={exp.id}
+                initial={{ opacity: 0, x: pos.side === 'right' ? -60 : 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.35, delay: index * 0.05 }}
+                style={cardStyle}
+              >
+                <ExperienceCard exp={exp} />
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Animated Car */}
-        <motion.div
-          className="absolute z-20 hidden lg:block top-0"
-          style={{
-            left: 'calc(50% - 1rem)', // center horizontally, adjust for car width
-            y: carY,
-            top: "5%"
-          }}
-        >
-          <F1CarIcon className="w-8 h-16" />
-          {/* <motion.div
-            className="relative"
-            animate={{
-              y: [0, -5, 0],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            <img
-              src={carImage}
-              alt="Journey Car"
-              className="w-16 h-8 object-contain filter drop-shadow-lg"
-            />
-            <div className="absolute -inset-2 bg-primary/20 rounded-full blur-md -z-10 animate-glow"></div>
-          </motion.div> */}
-        </motion.div>
-
-        {/* Experience Cards */}
-        <div className="relative z-10 grid grid-cols-12 gap-y-8">
+        {/* --- Mobile / tablet fallback (simple timeline) --- */}
+        <div className="relative z-10 lg:hidden space-y-8">
+          {/* Simple center line */}
+          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-primary/20" />
           {experiences.map((exp, index) => (
             <motion.div
               key={exp.id}
-              initial={{ opacity: 0, x: exp.side === "left" ? -100 : 100 }}
+              initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              className={
-                `col-span-12 flex justify-center lg:col-span-12 ` +
-                (exp.side === "left"
-                  ? "lg:justify-start"
-                  : "lg:justify-end")
-              }
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+              className="pl-10 relative"
             >
-              <Card
-                className={
-                  `w-full p-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-elegant hover:shadow-glow transition-all duration-300 mx-4 ` +
-                  `max-w-full sm:max-w-2xl lg:max-w-lg ` +
-                  `col-span-10 ` +
-                  (exp.side === "left"
-                    ? "lg:mr-auto lg:ml-0"
-                    : "lg:ml-auto lg:mr-0")
-                }
-              >
-                <div className="space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-xl font-semibold text-primary mb-1">
-                        {exp.position}
-                      </h3>
-                      <p className="text-lg font-medium text-foreground">
-                        {exp.company}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {exp.duration}
-                      </p>
-                    </div>
-                    <div className="w-4 h-4 bg-primary rounded-full border-4 border-background shadow-glow animate-glow"></div>
-                  </div>
-
-                  <ul className="list-disc pl-5 text-muted-foreground leading-relaxed space-y-2">
-                    {exp.description.map((point, idx) => (
-                      <li key={idx}>{point}</li>
-                    ))}
-                  </ul>
-
-                  <div className="flex flex-wrap gap-2">
-                    {exp.technologies.map((tech) => (
-                      <Badge
-                        key={tech}
-                        variant="secondary"
-                        className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                      >
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </Card>
+              {/* Dot on the line */}
+              <div className="absolute left-[11px] top-8 w-3 h-3 rounded-full bg-primary shadow-glow" />
+              <ExperienceCard exp={exp} />
             </motion.div>
           ))}
         </div>
-
       </div>
     </section>
   );
 };
+
+// --- Extracted card component ---
+function ExperienceCard({ exp }: { exp: typeof experiences[number] }) {
+  return (
+    <Card className="p-8 bg-card/80 backdrop-blur-sm border-border/50 shadow-elegant hover:shadow-glow transition-all duration-300">
+      <div className="space-y-4">
+        <div className="flex items-start justify-between">
+          <div>
+            <h3 className="text-xl font-semibold text-primary mb-1">
+              {exp.position}
+            </h3>
+            <p className="text-lg font-medium text-foreground">
+              {exp.company}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {exp.duration}
+            </p>
+          </div>
+          <div className="w-4 h-4 bg-primary rounded-full border-4 border-background shadow-glow animate-glow"></div>
+        </div>
+
+        <ul className="list-disc pl-5 text-muted-foreground leading-relaxed space-y-2">
+          {exp.description.map((point, idx) => (
+            <li key={idx}>{point}</li>
+          ))}
+        </ul>
+
+        <div className="flex flex-wrap gap-2">
+          {exp.technologies.map((tech) => (
+            <Badge
+              key={tech}
+              variant="secondary"
+              className="bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+            >
+              {tech}
+            </Badge>
+          ))}
+        </div>
+      </div>
+    </Card>
+  );
+}
