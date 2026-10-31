@@ -12,9 +12,10 @@ const experiences = [
     position: "Software Engineer Intern",
     duration: "May 2026 - Present",
     description: [
-      "Engineered high-throughput telemetry pipelines and backend services by evaluating MQTT vs. Kafka message brokers and benchmarking 5 database architectures (MongoDB, PostgreSQL, InfluxDB, Snowflake, MongoDB Timeseries), deploying Python and MQTT infrastructure across AWS and physical racks with bunkerM to increase telemetry data throughput by 3x and optimize memory efficiency for real-time chip metrics.",
-      "Released automated configuration and deployment mechanisms within the Failure In Test (FIT) Orchestrator, building GUI controls for hardware/software versioning and surfacing automated monitoring modes on rack dashboards to eliminate manual hardware tuning and cut setup time by 40%.",
-      "Optimized low-latency database queries and backend endpoints for key monitoring interfaces (JP-GUI), resolving performance bottlenecks on historical BER endpoints and accelerating end-to-end telemetry retrieval by 60% to prepare backend services for customer production releases.",
+      "Built a proof of concept for a telemetry pipeline (MQTT, middleware, InfluxDB, Grafana) that cut hardware publish cost per message by 6x for 20 million data points a day and made live dashboards with sub-second latency.",
+      "Cut hardware upgrade time by 90% by building a Known Configuration system that deploys baselines through Ansible.",
+      "Optimized low-latency database queries and backend APIs for investor demo interfaces, boosting telemetry data retrieval by 60%.",
+      "Unified health, test status and monitoring for 200+ chassis across all the product lines for smoother harware tuning.",
       "Engineered Kubernetes deployment pipelines to migrate legacy Ansible server infrastructure, automating release processes to reduce manual deployment steps by 80% for system configuration updates."
     ],
     technologies: ["Python", "MongoDB", "MQTT", "Kafka", "AWS", "Kubernetes", "Snowflake"],

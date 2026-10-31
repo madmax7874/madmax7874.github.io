@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Github, Linkedin, Mail, Download } from 'lucide-react';
-import profileImage from '@/assets/Rushabh Shah white bg.png';
+import profileImage from '@/assets/Rushabh Shah.jpg';
 
 export const HeroSection = () => {
   return (
